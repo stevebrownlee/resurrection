@@ -1,0 +1,87 @@
+---
+// src/components/Testimonials.astro
+const testimonials = [
+  {
+    name: "John Doe",
+    location: "Seattle, WA",
+    quote: "Hardwood Resurrection brought my old oak floors back to life! Their craftsmanship is unparalleled.",
+    rating: 5
+  },
+  {
+    name: "Jane Smith",
+    location: "Portland, OR",
+    quote: "I'm amazed at how they transformed my worn-out hardwood. It looks better than when it was new!",
+    rating: 5
+  },
+  {
+    name: "Mike Johnson",
+    location: "Vancouver, WA",
+    quote: "Professional, punctual, and perfect results. I couldn't be happier with my restored floors.",
+    rating: 5
+  }
+];
+
+const renderStars = (rating) => {
+  return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+};
+---
+
+<section class="testimonials">
+  <h2>What Our Customers Say</h2>
+  <div class="testimonial-grid">
+    {testimonials.map(testimonial => (
+      <div class="testimonial-card">
+        <p class="quote">"{testimonial.quote}"</p>
+        <div class="rating">{renderStars(testimonial.rating)}</div>
+        <p class="author">- {testimonial.name}, {testimonial.location}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    padding: 2rem 1rem;
+    background-color: #f8f8f8;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .quote {
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .rating {
+    color: #ffd700;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .author {
+    text-align: right;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .testimonial-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

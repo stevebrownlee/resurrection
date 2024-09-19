@@ -1,0 +1,123 @@
+---
+// src/components/ContactForm.astro
+---
+
+<section class="contact-form">
+    <h2>Schedule an Appointment</h2>
+    <form id="appointmentForm">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Detailed Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="formMessage" class="form-message"></div>
+  </section>
+
+  <style>
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .form-message {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+    .form-message.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .form-message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+
+  <script>
+    const form = document.getElementById('appointmentForm');
+    const formMessage = document.getElementById('formMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Basic form validation
+      const inputs = form.querySelectorAll('input, textarea');
+      let isValid = true;
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          isValid = false;
+          input.style.borderColor = 'red';
+        } else {
+          input.style.borderColor = '#ccc';
+        }
+      });
+
+      if (!isValid) {
+        formMessage.textContent = 'Please fill in all fields.';
+        formMessage.className = 'form-message error';
+        return;
+      }
+
+      // Simulate form submission (replace with actual submission logic)
+      try {
+        const formData = new FormData(form);
+        const response = await fetch('/api/submit-form', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          formMessage.textContent = 'Thank you! Your appointment request has been submitted.';
+          formMessage.className = 'form-message success';
+          form.reset();
+        } else {
+          throw new Error('Form submission failed');
+        }
+      } catch (error) {
+        formMessage.textContent = 'An error occurred. Please try again later.';
+        formMessage.className = 'form-message error';
+      }
+    });
+  </script>

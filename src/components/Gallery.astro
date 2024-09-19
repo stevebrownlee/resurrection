@@ -1,0 +1,65 @@
+---
+// src/components/Gallery.astro
+import { Image } from 'astro:assets';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Assume we have an array of image objects
+const images = [
+  { src: '/images/gallery/image1.jpg', alt: 'Beautifully restored hardwood floor' },
+  { src: '/images/gallery/image2.jpg', alt: 'Custom hardwood installation' },
+  { src: '/images/gallery/image3.jpg', alt: 'Before and after floor refinishing' },
+  // Add more images as needed
+];
+---
+
+<section class="gallery">
+  <h2>Our Work</h2>
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      {images.map((image) => (
+        <div class="swiper-slide">
+          <Image src={image.src} alt={image.alt} width={800} height={600} />
+        </div>
+      ))}
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+</section>
+
+<style>
+  .gallery {
+    padding: 2rem 0;
+  }
+  .swiper {
+    width: 100%;
+    height: 400px; /* Adjust as needed */
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+
+  new Swiper('.swiper', {
+    modules: [Navigation, Pagination, Autoplay],
+    loop: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+  });
+</script>
