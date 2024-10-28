@@ -7,23 +7,23 @@
     <form id="appointmentForm">
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" value="example" required>
       </div>
       <div class="form-group">
         <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" required>
+        <input type="tel" id="phone" name="phone" required value="1234567890">
       </div>
       <div class="form-group">
         <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" required value="example@example.com">
       </div>
       <div class="form-group">
         <label for="subject">Subject:</label>
-        <input type="text" id="subject" name="subject" required>
+        <input type="text" id="subject" name="subject" required value="example subject">
       </div>
       <div class="form-group">
         <label for="description">Detailed Description:</label>
-        <textarea id="description" name="description" rows="4" required></textarea>
+        <textarea id="description" name="description" rows="4" required>example description</textarea>
       </div>
       <button type="submit">Submit</button>
     </form>
@@ -85,12 +85,15 @@
       // Basic form validation
       const inputs = form.querySelectorAll('input, textarea');
       let isValid = true;
+      const formData = {};
+
       inputs.forEach(input => {
         if (!input.value.trim()) {
           isValid = false;
           input.style.borderColor = 'red';
         } else {
           input.style.borderColor = '#ccc';
+          formData[input.name] = input.value.trim();
         }
       });
 
@@ -100,23 +103,28 @@
         return;
       }
 
-      // Simulate form submission (replace with actual submission logic)
+      // Updated form submission logic
       try {
-        const formData = new FormData(form);
         const response = await fetch('/api/submit-form', {
           method: 'POST',
-          body: formData
+          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
 
         if (response.ok) {
-          formMessage.textContent = 'Thank you! Your appointment request has been submitted.';
+          const result = await response.json();
+          formMessage.textContent = result.message || 'Thank you! Your request for information has been submitted.';
           formMessage.className = 'form-message success';
           form.reset();
         } else {
-          throw new Error('Form submission failed');
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Form submission failed');
         }
       } catch (error) {
-        formMessage.textContent = 'An error occurred. Please try again later.';
+        console.error('Error:', error);
+        formMessage.textContent = error.message || 'An error occurred. Please try again later.';
         formMessage.className = 'form-message error';
       }
     });

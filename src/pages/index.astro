@@ -1,23 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
 import Gallery from '../components/Gallery.astro';
 import ServiceOfferings from '../components/ServiceOfferings.astro';
 import Testimonials from '../components/Testimonials.astro';
 import ContactForm from '../components/ContactForm.astro';
 import Footer from '../components/Footer.astro';
+import Hero from '@components/Hero.astro';
 
 const pageTitle = "Hardwood Resurrection - Expert Floor Restoration & Installation";
 ---
 
 <Layout title={pageTitle}>
-  <Header />
   <main>
-    <section class="hero">
-      <h1>Hardwood Resurrection</h1>
-      <p>Bringing Your Floors Back to Life</p>
-      <a href="/contact" class="cta-button">Get a Free Quote</a>
-    </section>
+    <Hero />
 
     <Gallery />
 
