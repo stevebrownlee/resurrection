@@ -25,15 +25,26 @@ const { title = "Hardwood Resurrection" } = Astro.props;
 
 <style is:global>
 	/* Global styles */
+	:root {
+		--primary-color: #ff5e14;
+		--secondary-color: #001659;
+		--text-color: #737373;
+		--heading-color: #001659;
+	}
 	body {
-		font-family: 'Poppins', sans-serif;
+		font-family: "Poppins", sans-serif;
 		color: var(--text-color);
 		margin: 0;
 		padding: 0;
 	}
 
-	h1, h2, h3, h4, h5, h6 {
-		font-family: 'Poppins', sans-serif;
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: "Poppins", sans-serif;
 		color: var(--heading-color);
 	}
 
